@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaGithub } from 'react-icons/fa';
-import SignUp from '../compoenents/SignUp';
 import API from '../utils/API'
 export default function HomePage(){
 
@@ -10,7 +8,7 @@ export default function HomePage(){
     API.getAllProduct().then(data=>{
       setProducts(data)
     })
-  })
+  }, [])
    
 
     return (

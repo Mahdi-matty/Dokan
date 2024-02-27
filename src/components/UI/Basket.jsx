@@ -4,11 +4,13 @@ import ChekOut from './ChekOut'
 
 export default function Basket(){
     const clientId = localStorage.getItem('clientId')
+    const token = localStorage.getItem('token')
+    console.log(clientId)
     const [baskets , setBasket ] = useState([])
     const [showCheckOut, setShowChekOut] = useState(false)
 
     useEffect(()=>{
-        API.getUserBasket(clientId).then(data=>{
+        API.getUserBasket(token, clientId).then(data=>{
             setBasket(data)
         })
     })

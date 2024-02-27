@@ -29,6 +29,16 @@ const API = {
             return res.json()
         })
     },
+    logOut:()=>{
+        fetch(`${URL_PREFIX}/api/clients/logOut`, {
+            method: 'GET',
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error('something went wrong ')
+            }
+            return res.json()
+        })
+    },
     signup:userObj=>{
         return fetch(`${URL_PREFIX}/api/clients/`,{
             method:"POST",
@@ -67,6 +77,17 @@ const API = {
             }
             return res.json()
           })
+    },
+    getOneProduct: (productId)=>{
+        return fetch(`${URL_PREFIX}/api/products/${productId}`, {
+            method: 'GET',
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error('something went wrong')
+            }else{
+                return res.json()
+            }
+        })
     },
     createProduct:(token,productObj)=>{
         return fetch(`${URL_PREFIX}/api/products`,{
@@ -155,6 +176,21 @@ const API = {
             return res.json()
           })
     },
+    createOrder: (token, orderOBj)=>{
+        fetch(`${URL_PREFIX}/api/orders`, {
+            method: 'POST',
+            body:JSON.stringify(orderOBj),
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error('something went wrong')
+            }
+            return res.json()
+        })
+    },
     getOneOrder: (token, orderId)=>{
         return fetch(`${URL_PREFIX}/api/basket/${orderId}`, {
             method: 'GET',
@@ -231,4 +267,5 @@ const API = {
 
 
 }
+export default API
 

@@ -15,6 +15,12 @@ export default function ProfilePage(){
         setProducts(data)
         })
     })
+    useEffect(() => {
+      const savedToken = localStorage.getItem('token');
+      if (savedToken) {
+        setIsLoggedIn(true);
+      }
+    }, []);
 
     if (!isLoggedIn) {
         return (
@@ -29,13 +35,19 @@ export default function ProfilePage(){
     return (
         <>
             <div>
-                <Link to="/basket"
-                onClick={()=>navigate('basket')}
-                >
-                    <SlBasketLoaded className="iconSize"/>
-                    <span>Card</span>
-                </Link>
-            </div>
+            <ul>
+              {
+                products.map((product)=>(
+                  <li key={product.id}>
+                    <img src={product.productPic}/>
+                    <Link to={`/products/${product.id}`}>
+                      <p>{product.title}</p>
+                    </Link>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </>
     )
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGithub } from 'react-icons/fa';
-import SignUp from '../compoenents/SignUp';
+import SignUp from '../components/SignUp'
 import API from '../utils/API'
 
 export default function Login(){
@@ -9,7 +9,7 @@ export default function Login(){
     const [userName, setuserName] = useState('');
     const [PassworD, setPassword] = useState('');
     const [token, setToken] = useState("");
-    const [loggedin, setIsLoggedIn] = useState(false)
+    const [isLoggedin, setIsLoggedIn] = useState(false)
     const [showSignup, setShowSignup] = useState(false);
 
     const handleSubmit = (e)=> {
