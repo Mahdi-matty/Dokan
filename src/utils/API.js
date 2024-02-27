@@ -67,6 +67,19 @@ const API = {
         return res.json()
       })
     },
+    getDataFromToken:token=>{
+        return fetch(`${URL_PREFIX}/api/clients/datafromtoken`,{
+            method:"GET",
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+             throw new Error("invalid token")
+            }
+            return res.json()
+          })
+    },
     getAllProduct:()=>{
         return fetch(`${URL_PREFIX}/api/products`,{
             method:"GET",

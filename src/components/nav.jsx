@@ -6,12 +6,26 @@ import { SlBasketLoaded } from "react-icons/sl"
 
 export default function Nav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [token, setToken] = useState('')
   useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    if (savedToken) {
-      setIsLoggedIn(!!savedToken);
+    const token = localStorage.getItem('token');
+    if (token) {
+      API.getDataFromToken(token).then(userData=>{
+        console.log(userData)
+        setToken(token);
+        setIsLoggedIn(true)
+      }).catch(err=>{
+        localStorage.removeItem("token");
+      })
     }
-  }, []);
+  },[])
+
+  const logout = ()=>{
+    API.logOut().then(data=>{
+      console.log(data);
+      localStorage.removeItem('token')
+    })
+  }
   return (
      <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className='container-fluid'>

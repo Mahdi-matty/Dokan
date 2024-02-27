@@ -14,11 +14,13 @@ export default function ProfilePage(){
         API.getAllProduct().then(data=>{
         setProducts(data)
         })
-    })
+    }, [])
     useEffect(() => {
       const savedToken = localStorage.getItem('token');
       if (savedToken) {
         setIsLoggedIn(true);
+        API.getDataFromToken(token).then(userData=>{
+          console.log(userData)})
       }
     }, []);
 

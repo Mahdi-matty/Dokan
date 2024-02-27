@@ -6,9 +6,17 @@ export default function ProductPage(){
     const {id} = useParams();
     console.log(id)
     const [product , setProduct] = useState('')
-    const [loggedin, setloggedIn] = useState(false)
+    const [isLoggedin, setIsLoggedIn] = useState(false)
     const token = localStorage.getItem('token')
     const navigate = useNavigate()
+
+    useEffect(() => {
+      const savedToken = localStorage.getItem('token');
+      if (savedToken) {
+        setIsLoggedIn(true);
+      }
+    }, []);
+
  useEffect(()=>{
     API.getOneProduct(id).then(data=>{
         setProduct(data)
@@ -20,7 +28,7 @@ export default function ProductPage(){
     const orderObj ={
           productId : productID
       }
-    if (!loggedin) {
+    if (!isLoggedin) {
         return (
           <div className="container text-center">
             <h1>Please log in to access your profile.</h1>
