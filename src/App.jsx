@@ -1,11 +1,15 @@
 import { Outlet  } from 'react-router-dom';
 import Nav from './components/nav'
 import './index.css'
+import AuthProvider from './utils/AuthContext';
 function App() {
   return (
     <>
-      <Nav />
-      <Outlet />
+      <AuthProvider>
+        <Nav />
+        <Outlet />
+      </AuthProvider>
+      
     </>
   )
 }

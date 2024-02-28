@@ -23,10 +23,8 @@ export default function Login(){
             password:userObj.PassworD,
           })
         .then(data=>{
-          console.log(data);
           setIsLoggedIn(true);
           setToken(data.token);
-          localStorage.setItem('clientId', data.client.id)
           localStorage.setItem("token",data.token)
           navigate('/profile')
         }).catch(err=>{

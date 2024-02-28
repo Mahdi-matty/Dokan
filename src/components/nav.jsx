@@ -3,22 +3,23 @@ import Navbar from './UI/navbar'
 import { useState, useEffect } from 'react';
 import API from '../utils/API';
 import { SlBasketLoaded } from "react-icons/sl"
+import { useAuthContext } from '../utils/AuthContext';
 
 export default function Nav() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [token, setToken] = useState('')
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      API.getDataFromToken(token).then(data=>{
-        console.log(data)
-        setToken(token);
-        setIsLoggedIn(true)
-      }).catch(err=>{
-        localStorage.removeItem("token");
-      })
-    }
-  },[])
+  // const [isLoggedIn, setIsLoggedIn] = useState(false)
+  // const token = localStorage.getItem('token');
+  // useEffect(() => {
+  //   if (token) {
+  //     API.getDataFromToken(token).then(data=>{
+  //       console.log(data)
+  //       setToken(token);
+  //       setIsLoggedIn(true)
+  //     }).catch(err=>{
+  //       localStorage.removeItem("token");
+  //     })
+  //   }
+  // },[])
+  const {isLoggedIn, token} = useAuthContext()
 
   const logout = ()=>{
     API.logOut().then(data=>{

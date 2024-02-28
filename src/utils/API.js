@@ -175,7 +175,7 @@ const API = {
         })
     },
     editBasket:(token,basketId,basketObj)=>{
-        return fetch(`${URL_PREFIX}/api/Basket/${basketId}`,{
+        return fetch(`${URL_PREFIX}/api/basket/${basketId}`,{
             method:"PUT",
             body:JSON.stringify(basketObj),
             headers:{
@@ -189,10 +189,10 @@ const API = {
             return res.json()
           })
     },
-    createOrder: (token, orderOBj)=>{
+    createOrder: (token, orderObj)=>{
         fetch(`${URL_PREFIX}/api/orders`, {
             method: 'POST',
-            body:JSON.stringify(orderOBj),
+            body:JSON.stringify(orderObj),
             headers:{
                 "Content-Type":"application/json",
                 "Authorization":`Bearer ${token}`
@@ -205,7 +205,7 @@ const API = {
         })
     },
     getOneOrder: (token, orderId)=>{
-        return fetch(`${URL_PREFIX}/api/basket/${orderId}`, {
+        return fetch(`${URL_PREFIX}/api/orders/${orderId}`, {
             method: 'GET',
             headers: {
                 "Authorization":`Bearer ${token}`
@@ -219,7 +219,7 @@ const API = {
         })
     },
     editOrder:(token,orderId,orderObj)=>{
-        return fetch(`${URL_PREFIX}/api/Basket/${orderId}`,{
+        return fetch(`${URL_PREFIX}/api/orders/${orderId}`,{
             method:"PUT",
             body:JSON.stringify(orderObj),
             headers:{
@@ -234,7 +234,7 @@ const API = {
           })
     },
     deleteOrder:(token,orderId)=>{
-        return fetch(`${URL_PREFIX}/api/products/${orderId}`,{
+        return fetch(`${URL_PREFIX}/api/orders/${orderId}`,{
             method:"DELETE",
             headers:{
                 "Content-Type":"application/json",
@@ -246,6 +246,19 @@ const API = {
             }
             return res.json()
           })
+    },
+    getUserOrder:(token, basketId)=>{
+        return fetch(`${URL_PREFIX}/api/orders/basket/${basketId}`, {
+            method: 'GET',
+            headers: {
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error("can't get orders")
+            }
+            return res.json()
+        })
     },
     getCategory: (categoryId)=>{
         return fetch(`${URL_PREFIX}/api/products/categoryProd/${categoryId}`,{
@@ -276,7 +289,75 @@ const API = {
             }
             return res.json()
         })
-    }
+    },
+    postReview:(token,reviewObj)=>{
+        return fetch(`${URL_PREFIX}/api/reviews`,{
+            method:"POST",
+            body:JSON.stringify(reviewObj),
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+             throw new Error("cannot create")
+            }
+            return res.json()
+          })
+    },
+    getOneReview: (token, reviewId)=>{
+        return fetch(`${URL_PREFIX}/api/reviews/${reviewId}`, {
+            method: 'GET',
+            headers: {
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error('something went wrong')
+            }else{
+                return res.json()
+            }
+        })
+    },
+    editReview:(token,reviewId,reviewObj)=>{
+        return fetch(`${URL_PREFIX}/api/reviews/${reviewId}`,{
+            method:"PUT",
+            body:JSON.stringify(reviewObj),
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+             throw new Error("cannot edit")
+            }
+            return res.json()
+          })
+    },
+    deleteReview:(token,reviewId)=>{
+        return fetch(`${URL_PREFIX}/api/reviews/${reviewId}`,{
+            method:"DELETE",
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+             throw new Error("cannot delete")
+            }
+            return res.json()
+          })
+    },
+    getProductReviwes: (productId)=>{
+        return fetch(`${URL_PREFIX}/api/reviews/product/${productId}`, {
+            method: 'GET',
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error('something went wrong')
+            }
+            return res.json()
+        })
+    },
+
 
 
 }

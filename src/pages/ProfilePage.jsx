@@ -2,14 +2,13 @@ import { useEffect, useState } from "react"
 import API from '../utils/API'
 import { Link, useNavigate } from "react-router-dom"
 import { SlBasketLoaded } from "react-icons/sl"
+import { useAuthContext } from "../utils/AuthContext"
 
 export default function ProfilePage(){
     const [products, setProducts] = useState([])
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const token = localStorage.getItem('token')
-    const clientId = localStorage.getItem('clientId')
+    const {isLoggedIn, token} = useAuthContext()
     const navigate = useNavigate()
-
+    let clientId;
     useEffect(()=>{
         API.getAllProduct().then(data=>{
         setProducts(data)
@@ -17,11 +16,11 @@ export default function ProfilePage(){
     }, [])
     useEffect(() => {
       if (token) {
-        setIsLoggedIn(true);
         API.getDataFromToken(token).then(userData=>{
-          console.log(userData)})
+          console.log(userData)
+          clientId = userData.id
+           localStorage.setItem('clientId', clientId)})
           .catch(err=>{
-            localStorage.removeItem("token");
             console.log(err)
           })
       }
