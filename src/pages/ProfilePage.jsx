@@ -16,11 +16,14 @@ export default function ProfilePage(){
         })
     }, [])
     useEffect(() => {
-      const savedToken = localStorage.getItem('token');
-      if (savedToken) {
+      if (token) {
         setIsLoggedIn(true);
         API.getDataFromToken(token).then(userData=>{
           console.log(userData)})
+          .catch(err=>{
+            localStorage.removeItem("token");
+            console.log(err)
+          })
       }
     }, []);
 

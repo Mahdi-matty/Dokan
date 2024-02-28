@@ -10,8 +10,8 @@ export default function Nav() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      API.getDataFromToken(token).then(userData=>{
-        console.log(userData)
+      API.getDataFromToken(token).then(data=>{
+        console.log(data)
         setToken(token);
         setIsLoggedIn(true)
       }).catch(err=>{

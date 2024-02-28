@@ -68,7 +68,7 @@ const API = {
       })
     },
     getDataFromToken:token=>{
-        return fetch(`${URL_PREFIX}/api/clients/datafromtoken`,{
+        return fetch(`${URL_PREFIX}/datafromtoken`,{
             method:"GET",
             headers:{
                 "Authorization":`Bearer ${token}`
