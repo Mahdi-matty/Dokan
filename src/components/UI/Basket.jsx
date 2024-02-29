@@ -6,8 +6,9 @@ import { useAuthContext } from "../../utils/AuthContext"
 export default function Basket(){
     const clientId = localStorage.getItem('clientId')
     const {isLoggedIn, token} = useAuthContext()
-    const [orders, setOrders] = useState([])
+    const [collects, setCollects] = useState([])
     const [showCheckOut, setShowChekOut] = useState(false)
+    const [totalPrice, setTotalPrice] = useState(0);
 
 
     let basketId
@@ -20,9 +21,11 @@ export default function Basket(){
             return basketId
             }).then(basketId=>{
                 if (basketId){
-                    API.getUserOrder(token, basketId).then(orders=>{
-                        console.log(orders)
-                        setOrders(orders)
+                    API.getUserOrder(token, basketId).then(collectz=>{
+                        console.log(collectz)
+                        setCollects(collectz)
+                        // setProducts(collectz.products)
+                        // setOrders(collectz.orders)
                 }).catch(err=>{
                     console.error('eror fetching data: ', err)
                 });
@@ -33,26 +36,33 @@ export default function Basket(){
             
      }, [token])
 
-
+     useEffect(() => {
+        const totalPrice = collects.reduce(
+            (accumulator, currentCollect) => accumulator + currentCollect.product.price,
+            0
+        );
+        setTotalPrice(totalPrice);
+    }, [collects]);
     
 
 
     const checkOutDev = ()=>{
         setShowChekOut(!showCheckOut)
+        console.log(totalPrice)
     }
 
 
     return (
         <>
+        {collects.map(collect=>(
+            <li key={collect.order.id}>
+                <p>Order Id: {collect.order.id}</p>
+                <p>{collect.product.title}</p>
+                <p>{collect.product.price}</p>
+                <p>{collect.product.status}</p>
+            </li>
+        ))}
         <div>
-            <ul>
-                {orders.map((order)=>(
-                    <li key={order.id}>
-                        <p>{order.productId}</p>
-                    </li>
-                ))}
-            </ul>
-            
             <p>Proced to chekout</p>
             <button onClick={()=>checkOutDev()}>Checkout</button>
         </div>
