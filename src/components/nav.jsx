@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from './UI/navbar'
 import { useState, useEffect } from 'react';
 import API from '../utils/API';
@@ -6,6 +6,7 @@ import { SlBasketLoaded } from "react-icons/sl"
 import { useAuthContext } from '../utils/AuthContext';
 
 export default function Nav() {
+  const navigate = useNavigate()
   // const [isLoggedIn, setIsLoggedIn] = useState(false)
   // const token = localStorage.getItem('token');
   // useEffect(() => {
@@ -22,11 +23,10 @@ export default function Nav() {
   const {isLoggedIn, token} = useAuthContext()
 
   const logout = ()=>{
-    API.logOut().then(data=>{
-      console.log(data);
-      localStorage.removeItem('token')
-    })
-  }
+    localStorage.removeItem('token')
+      navigate('/login')
+    }
+  
   return (
      <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className='container-fluid'>

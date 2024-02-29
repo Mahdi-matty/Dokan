@@ -1,9 +1,11 @@
 import API from "../../utils/API";
 import { useState, useEffect } from "react";
+import { useAuthContext } from "../../utils/AuthContext";
 
 
 export default function ChekOut(){
-    const token = localStorage.getItem('token')
+    const {isLoggedIn, token} = useAuthContext();
+    
 
     // useEffect(()=>{
     //     API.getUserOrder(token, )
