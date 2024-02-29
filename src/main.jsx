@@ -10,6 +10,8 @@ import ProductPage from './components/UI/ProductPage.jsx'
 import Login from './pages/Login.jsx';
 import Basket from './components/UI/Basket.jsx';
 import ProfilePage from './pages/ProfilePage.jsx'
+import MerchantLogin from './merchants/MerchantLogin.jsx';
+import MerProfile from './merchants/MerProfile.jsx';
 
 
 const router = createBrowserRouter([
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />,
+      },
+      {
+        path: '/merchantlogin',
+        element: <MerchantLogin />,
+      },
+      {
+        path: '/merchantprofile',
+        element: <MerProfile />,
       },
       {
         path: '/basket',

@@ -102,6 +102,19 @@ const API = {
             }
         })
     },
+    getMerchantProduct:(token, merchantId)=>{
+        fetch(`${URL_PREFIX}/api/products/merchant/${merchantId}`, {
+            method: 'GET',
+            headers: {
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error('something went wrong')
+            }
+            return res.json()
+        })
+    },
     createProduct:(token,productObj)=>{
         return fetch(`${URL_PREFIX}/api/products`,{
             method:"POST",
