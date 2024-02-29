@@ -49,6 +49,13 @@ export default function Basket(){
     const checkOutDev = ()=>{
         setShowChekOut(!showCheckOut)
         console.log(totalPrice)
+    };
+
+    const deleteOrder = (collect)=>{
+        const orderId = collect.order.id
+        API.deleteOrder(token, orderId).then(data=>{
+            console.log(data)
+        })
     }
 
 
@@ -60,6 +67,7 @@ export default function Basket(){
                 <p>{collect.product.title}</p>
                 <p>{collect.product.price}</p>
                 <p>{collect.product.status}</p>
+                <button onClick={()=>deleteOrder(collect)}>Remove Order</button>
             </li>
         ))}
         <div>
