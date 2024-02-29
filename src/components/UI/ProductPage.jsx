@@ -4,6 +4,7 @@ import API from "../../utils/API";
 import { useAuthContext } from "../../utils/AuthContext"
 export default function ProductPage(){
     const {id} = useParams();
+    console.log(id)
     const [product , setProduct] = useState('')
     const {isLoggedIn, token} = useAuthContext()
     const [showCommentForm, setShowCommentForm] = useState(false)
@@ -24,6 +25,12 @@ export default function ProductPage(){
  useEffect(()=>{
     API.getOneProduct(id).then(data=>{
         setProduct(data)
+    })
+ }, [])
+
+ useEffect(()=>{
+    API.getProductReviwes(id).then(data=>{
+        setReviews(data)
     })
  }, [])
 
@@ -73,9 +80,10 @@ const addComment = ()=>{
         e.preventDefault();
         const reviewObj ={
             comment: comment,
-            productID: id,
+            productId: id,
             clientId: clientId
         }
+        console.log(reviewObj)
         API.postReview(token, reviewObj).then(data=>{
             API.getProductReviwes().then(data=>{
                 setReviews(data)
@@ -91,10 +99,7 @@ const addComment = ()=>{
             {product.productPic && <img src={product.productPic}/> }
             <h2>{product.title}</h2>
             <p>{product.content}</p>
-            {(product.reviews || []).map(review=>(
-                <li key={review.id}>
-                    <p>{review.comment}</p>
-                    <button onClick={()=>addComment()}>Add review</button>
+            <button onClick={()=>addComment()}>Add review</button>
                     {showCommentForm && (
                         <form onSubmit={e=>registerComment(e)}>
                              <input 
@@ -104,8 +109,12 @@ const addComment = ()=>{
                                 placeholder="enter your comment"
                                 onChange={e=>setComment(e.target.value)}
                                 type="text"/>
+                                <button type="submit">Submit</button>
                         </form>
                     )}
+            {(reviews || []).map(review=>(
+                <li key={review.id}>
+                    <p>{review.comment}</p>
                 </li>
             ))}
             <button onClick={(product)=>addItemToCard(product)} >add item to card</button>
