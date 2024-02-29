@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import API from "../../utils/API";
 import { useAuthContext } from "../../utils/AuthContext"
+import UploadCareUploader from "./uploadcare";
 export default function ProductPage(){
     const {id} = useParams();
     console.log(id)
@@ -99,6 +100,7 @@ const addComment = ()=>{
             {product.productPic && <img src={product.productPic}/> }
             <h2>{product.title}</h2>
             <p>{product.content}</p>
+            <UploadCareUploader />
             <button onClick={()=>addComment()}>Add review</button>
                     {showCommentForm && (
                         <form onSubmit={e=>registerComment(e)}>
