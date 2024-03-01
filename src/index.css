@@ -57,6 +57,37 @@ button:focus-visible {
   --s-accent: 100%;
   --l-accent: 61%;
 }
+.categories-container {
+  display: flex;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.category-card {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.products-container {
+  margin-top: 20px;
+}
+
+.products-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
+  list-style-type: none;
+}
+
+.product-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
 
 @media (prefers-color-scheme: light) {
   :root {

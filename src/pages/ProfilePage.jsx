@@ -7,6 +7,7 @@ import { useAuthContext } from "../utils/AuthContext"
 export default function ProfilePage(){
     const [products, setProducts] = useState([])
     const {isLoggedIn, token} = useAuthContext()
+    const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const clientId = localStorage.getItem('clientId')
     console.log(clientId)
@@ -15,6 +16,11 @@ export default function ProfilePage(){
         API.getAllProduct().then(data=>{
         setProducts(data)
         })
+    }, [])
+    useEffect(()=>{
+      API.getCategories().then(data=>{
+        setCategories(data)
+      })
     }, [])
   
 
@@ -32,11 +38,19 @@ export default function ProfilePage(){
 
     return (
         <>
-            <div>
-            <ul>
+           <div className="categories-container">
+           
+              {categories.map((category)=>(
+                <div className="category-card" key={category.id}>
+                  <Link to={`/category/${category.id}`}><p>{category.name}</p></Link>
+                </div>
+              ))}
+          </div>
+            <div className="products-container">
+            <ul className="products-list">
               {
                 products.map((product)=>(
-                  <li key={product.id}>
+                  <li className="product-card" key={product.id}>
                     <img src={product.productPic}/>
                     <Link to={`/products/${product.id}`}>
                       <p>{product.title}</p>

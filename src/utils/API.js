@@ -274,7 +274,17 @@ const API = {
         })
     },
     getCategory: (categoryId)=>{
-        return fetch(`${URL_PREFIX}/api/products/categoryProd/${categoryId}`,{
+        return fetch(`${URL_PREFIX}/api/categories/${categoryId}`,{
+            method: 'GET',
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error("unable to get this category")
+            }
+            return res.json()
+        })
+    },
+    getCategories: ()=>{
+        return fetch(`${URL_PREFIX}/api/categories`,{
             method: 'GET',
         }).then(res=>{
             if(!res.ok){

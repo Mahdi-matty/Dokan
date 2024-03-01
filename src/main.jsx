@@ -12,6 +12,7 @@ import Basket from './components/UI/Basket.jsx';
 import ProfilePage from './pages/ProfilePage.jsx'
 import MerchantLogin from './merchants/MerchantLogin.jsx';
 import MerProfile from './merchants/MerProfile.jsx';
+import CategoryPart from './components/UI/CategoryPart.jsx';
 
 
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: '/products/:id',
         element: <ProductPage />,
+      },
+      {
+        path: '/category/:id',
+        element: <CategoryPart />,
       },
       {
         path: '/profile',
