@@ -7,20 +7,12 @@ import { useAuthContext } from '../utils/AuthContext';
 
 export default function Nav() {
   const navigate = useNavigate()
-  // const [isLoggedIn, setIsLoggedIn] = useState(false)
-  // const token = localStorage.getItem('token');
-  // useEffect(() => {
-  //   if (token) {
-  //     API.getDataFromToken(token).then(data=>{
-  //       console.log(data)
-  //       setToken(token);
-  //       setIsLoggedIn(true)
-  //     }).catch(err=>{
-  //       localStorage.removeItem("token");
-  //     })
-  //   }
-  // },[])
-  const {isLoggedIn, token} = useAuthContext()
+  const {isLoggedIn, token, userStatus} = useAuthContext()
+  if (userStatus === '') {
+    // Render a loading indicator or placeholder content
+    return <div>Loading...</div>;
+  }
+  console.log(userStatus)
 
   const logout = ()=>{
     localStorage.removeItem('token')
@@ -36,7 +28,9 @@ export default function Nav() {
             Home
           </Link>
         </li>
-        <li className='nav-item'>
+        {userStatus == 'client'? (
+          <div>
+             <li className='nav-item'>
               <Link className="nav-link  newNavHead" to="/profile">
                 Profile
               </Link>
@@ -60,6 +54,31 @@ export default function Nav() {
             </li>
               )
             }
+          </div>
+        ) :(
+          <div>
+              <li className='nav-item'>
+              <Link className="nav-link  newNavHead" to="/merchantprofile">
+                Profile
+              </Link>
+            </li> 
+            {isLoggedIn ? (
+              <div>
+              <li className='nav-item'>
+                <button className='nav-link  newNavHead' onClick={()=>logout()}>signout</button>
+              </li>
+              </div>
+             ) :(
+                <li className='nav-item'>
+              <Link className="nav-link  newNavHead" to="/merchantlogin">
+                Login
+              </Link>
+            </li>
+              )
+            }
+          </div>
+        )}
+       
             
        
         </ul>

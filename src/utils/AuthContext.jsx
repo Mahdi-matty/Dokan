@@ -11,6 +11,7 @@ export default function AuthProvider({children}){
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [token, setToken] = useState('')
     const location = useLocation();
+    const [userStatus, setUserStatus] = useState('')
 
     useEffect(() => {
        const savedToken= localStorage.getItem('token')
@@ -19,6 +20,13 @@ export default function AuthProvider({children}){
             console.log(data)
             setToken(savedToken);
             setIsLoggedIn(true)
+            setUserStatus(data.status)
+            console.log(userStatus)
+            if(data.status == 'client'){
+              localStorage.setItem('clientId', data.user.id)
+            }else if(data.status == 'merchant'){
+              localStorage.setItem('merchantId', data.user.id)
+            }
           }).catch(err=>{
             localStorage.removeItem("token");
           })
@@ -28,7 +36,7 @@ export default function AuthProvider({children}){
 
 
       return (
-        <AuthContext.Provider value={{isLoggedIn, token}}>
+        <AuthContext.Provider value={{isLoggedIn, token, userStatus}}>
             {children}
         </AuthContext.Provider>
       )

@@ -8,23 +8,17 @@ export default function ProfilePage(){
     const [products, setProducts] = useState([])
     const {isLoggedIn, token} = useAuthContext()
     const navigate = useNavigate()
-    let clientId;
+    const clientId = localStorage.getItem('clientId')
+    console.log(clientId)
+    
     useEffect(()=>{
         API.getAllProduct().then(data=>{
         setProducts(data)
         })
     }, [])
-    useEffect(() => {
-      if (token) {
-        API.getDataFromToken(token).then(userData=>{
-          console.log(userData)
-          clientId = userData.id
-           localStorage.setItem('clientId', clientId)})
-          .catch(err=>{
-            console.log(err)
-          })
-      }
-    }, []);
+  
+
+   
 
     if (!isLoggedIn) {
         return (
