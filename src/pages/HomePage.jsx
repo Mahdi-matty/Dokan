@@ -21,6 +21,9 @@ export default function HomePage(){
                     <img src={product.productPic}/>
                     <Link to={`/products/${product.id}`}>
                       <p>{product.title}</p>
+                      {product.status == 'unavailable' &&(
+                        <P>{product.status}</P>
+                      )}
                     </Link>
                   </li>
                 ))

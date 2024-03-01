@@ -14,6 +14,8 @@ export default function MerProfile(){
     const [newTitle, setNewTtile] = useState('')
     const [newContent, setNewContent] = useState('')
     const [newPrice, setNewPrice] = useState('')
+    const [stock, setStock] = useState('')
+    const [newStock, setNewStock] = useState('')
     const navigate = useNavigate()
     const [showNewForm, setShowNewForm] = useState(false)
 
@@ -33,7 +35,8 @@ export default function MerProfile(){
         const productObj ={
             title: title,
             content: content,
-            price: price
+            price: price,
+            stock: stock
         }
 
         API.editProduct(token, productId, productObj).then(data=>{
@@ -50,6 +53,7 @@ export default function MerProfile(){
             title: newTitle,
             content: newContent,
             price: newPrice,
+            stock: newStock,
             merchantId: merchantId
         }
 
@@ -66,6 +70,7 @@ export default function MerProfile(){
                             <p>{product.title}</p>
                             <p>{product.content}</p>
                             <p>{product.price}</p>
+                            <p>{product.stcok}</p>
                             <img src={product.productPic}/>
                             <button onClick={()=>popEdit(product)}></button>
                             <div>
@@ -92,6 +97,14 @@ export default function MerProfile(){
                                     id="price"
                                     value={price}
                                     onChange={e=>setPrice(e.target.value)}
+                                    placeholder="Type a Question"
+                                    type="text"
+                                    className="questionNewCard"/>
+                                    <input 
+                                    name="stcok"
+                                    id="stcok"
+                                    value={stcok}
+                                    onChange={e=>setStock(e.target.value)}
                                     placeholder="Type a Question"
                                     type="text"
                                     className="questionNewCard"/>
@@ -129,6 +142,14 @@ export default function MerProfile(){
                                     id="newPrice"
                                     value={newPrice}
                                     onChange={e=>setNewPrice(e.target.value)}
+                                    placeholder="Type a Question"
+                                    type="text"
+                                    className="questionNewCard"/>
+                                     <input 
+                                    name="newStock"
+                                    id="newStock"
+                                    value={newStock}
+                                    onChange={e=>setNewStock(e.target.value)}
                                     placeholder="Type a Question"
                                     type="text"
                                     className="questionNewCard"/>

@@ -9,8 +9,10 @@ export default function Nav() {
   const navigate = useNavigate()
   const {isLoggedIn, token, userStatus} = useAuthContext()
   if (userStatus === '') {
-    // Render a loading indicator or placeholder content
-    return <div>Loading...</div>;
+    
+    return <div>
+      <Link to='/login'>login</Link>
+      Loading...</div>;
   }
   console.log(userStatus)
 

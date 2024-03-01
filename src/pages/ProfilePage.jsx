@@ -41,6 +41,8 @@ export default function ProfilePage(){
                     <Link to={`/products/${product.id}`}>
                       <p>{product.title}</p>
                     </Link>
+                    {product.status == 'unavailable' &&(
+                        <P>{product.status}</P>)}
                   </li>
                 ))
               }

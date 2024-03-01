@@ -70,6 +70,13 @@ export default function ProductPage(){
           // Handle error
       }
   }
+
+  const productObj= {
+    stock: product.stock-1
+  }
+  API.editProduct(token, id, productObj).then(data=>{
+    console.log(data)
+  })
 };
 
 const addComment = ()=>{
