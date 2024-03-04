@@ -12,6 +12,7 @@ export default function ProductPage(){
     console.log(token)
     const [newGetOrder, setNewGetOrder] = useState('')
     const clientId = localStorage.getItem('clientId');
+    const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('')
     const navigate = useNavigate()
 
@@ -30,9 +31,24 @@ export default function ProductPage(){
 
  useEffect(()=>{
     API.getProductReviwes(id).then(data=>{
+        console.log(data)
         setReviews(data)
     })
  }, [])
+
+ const renderStars = (rating) => {
+    const stars = [];
+  
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        stars.push(<span key={i}>&#9733;</span>);
+      } else {
+        stars.push(<span key={i}>&#9734;</span>);
+      }
+    }
+  
+    return stars;
+  };
 
  const addItemToCard = async (product) => {
   const productID = product.id;
@@ -82,11 +98,17 @@ export default function ProductPage(){
 const addComment = ()=>{
  setShowCommentForm(!showCommentForm)
 }
+const handleStar = (value)=>{
+    setRating(value)    
+}
 
     const registerComment = (e)=>{
         e.preventDefault();
         const reviewObj ={
-            comment: comment,
+            comment: {
+                comment: comment,
+                rate: rating
+            },
             productId: id,
             clientId: clientId
         }
@@ -116,12 +138,24 @@ const addComment = ()=>{
                                 placeholder="enter your comment"
                                 onChange={e=>setComment(e.target.value)}
                                 type="text"/>
+                                <div>
+                                    {[1, 2, 3, 4, 5].map((value) => (
+                                        <span
+                                        key={value}
+                                        onClick={() => handleStar(value)}
+                                        style={{ cursor: "pointer", color: value <= rating ? "gold" : "gray" }}
+                                        >
+                                        &#9733;
+                                        </span>
+                                    ))}
+                                </div>
                                 <button type="submit">Submit</button>
                         </form>
                     )}
             {(reviews || []).map(review=>(
                 <li key={review.id}>
-                    <p>{review.comment}</p>
+                    <p>{review.comment.comment}</p>
+                    <div>{renderStars(review.comment.rate)}</div>
                 </li>
             ))}
             <button onClick={(product)=>addItemToCard(product)} >add item to card</button>
