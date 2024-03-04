@@ -159,6 +159,16 @@ const API = {
             return res.json()
           })
     },
+    searchProduct: (title)=>{
+          return fetch(`${URL_PREFIX}/search/search?tag=${title}`, {
+            method: 'GET'
+          }).then(res=>{
+            if(!res.ok){
+                throw new Error('something went wrong')
+            }
+            return res.json()
+          })
+    },
     getOneBasket: (token, basketId)=>{
         return fetch(`${URL_PREFIX}/api/basket/${basketId}`, {
             method: 'GET',

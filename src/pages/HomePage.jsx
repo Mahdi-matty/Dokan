@@ -5,6 +5,7 @@ export default function HomePage(){
 
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
+  const [searchResault, setSerachResault] = useState([])
   useEffect(()=>{
     API.getAllProduct().then(data=>{
       setProducts(data)
@@ -15,10 +16,39 @@ export default function HomePage(){
       setCategories(data)
     })
   }, [])
+
+  const prSearch = (search)=>{
+    API.searchProduct(search).then(res=>{
+     setSerachResault(res)
+    })
+  }
    
 
   return (
     <>
+
+       <div> 
+        <form>
+          <input
+          name="search"
+          id="search"
+          placeholder="enter your search"
+          onChange={e=>prSearch(e.target.value)}
+          type="text"/>
+        </form>
+              {searchResault.length !== 0 && (
+                <div className='search-container'>
+                  <ul>
+                    {searchResault.map((srz)=>(
+                      <li key={srz.id}>
+                        <Link to={`/products/${srz.id}`}><p>{srz.title}</p></Link>
+                      </li>
+                  ))}
+                  </ul>
+                </div>
+              )}
+           
+       </div>
        <div className="categories-container">
        
           {categories.map((category)=>(
