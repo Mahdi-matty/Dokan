@@ -61,7 +61,9 @@ export default function Basket(){
 
     return (
         <>
-        {collects.map(collect=>(
+        <div>
+            <ul>
+                {collects.map(collect=>(
             <li key={collect.order.id}>
                 <p>Order Id: {collect.order.id}</p>
                 <p>{collect.product.title}</p>
@@ -70,6 +72,9 @@ export default function Basket(){
                 <button onClick={()=>deleteOrder(collect)}>Remove Order</button>
             </li>
         ))}
+            </ul>
+        </div>
+        
         <div>
             <p>Proced to chekout</p>
             <button onClick={()=>checkOutDev()}>Checkout</button>

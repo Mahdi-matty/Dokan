@@ -10,6 +10,7 @@ export default function ProfilePage(){
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const clientId = localStorage.getItem('clientId')
+    const [collects, setCollects] = useState([])
     console.log(clientId)
     
     useEffect(()=>{
@@ -22,6 +23,76 @@ export default function ProfilePage(){
         setCategories(data)
       })
     }, [])
+    useEffect(()=>{
+      if(token){
+           API.getUserBasket(token, clientId).then(data=>{
+              console.log(data)
+          const basketId = data.id
+          console.log(basketId)
+          return basketId
+          }).then(basketId=>{
+              if (basketId){
+                  API.getUserOrder(token, basketId).then(collectz=>{
+                      console.log(collectz)
+                      setCollects(collectz)
+                      // setProducts(collectz.products)
+                      // setOrders(collectz.orders)
+              }).catch(err=>{
+                  console.error('eror fetching data: ', err)
+              });
+          }
+      })
+      }
+         
+          
+   }, [token])
+
+   useEffect(() => {
+    collects.map(collect => {
+      const productId = collect.product.id;
+      API.getOneProduct(productId)
+        .then(prod => {
+          if (prod.status === 'unavailable') {
+            const noteObj = {
+              msg: 'item is now available',
+              productId: productId
+            };
+            API.postNotification(noteObj)
+              .then(res => {
+                console.log(res);
+              })
+              .catch(error => {
+                console.error('Error posting notification:', error);
+              });
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching product:', error);
+        });
+    });
+  }, [collects]);
+
+  useEffect(() => {
+    // Define an array to hold notifications
+    const notifications = [];
+
+    // Iterate through collects and fetch notifications for each product
+    collects.forEach(collect => {
+        const productId = collect.product.id;
+
+        // Fetch notifications for the product
+        API.getProductNotification(productId)
+            .then(res => {
+                // Push notifications to the array
+                notifications.push(res);
+                // Convert the array to a string and store it in localStorage
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+            })
+            .catch(error => {
+                console.error('Error fetching notifications:', error);
+            });
+    });
+}, [collects]);
   
 
    

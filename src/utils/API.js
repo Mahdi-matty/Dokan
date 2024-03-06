@@ -390,6 +390,30 @@ const API = {
             return res.json()
         })
     },
+    postNotification:(noteObj)=>{
+        return fetch(`${URL_PREFIX}/api/notification`,{
+            method:"POST",
+            body:JSON.stringify(noteObj),
+            headers:{
+                "Content-Type":"application/json",
+            }
+        }).then(res=>{
+            if(!res.ok){
+             throw new Error("cannot create")
+            }
+            return res.json()
+          })
+    },
+    getProductNotification: (productId)=>{
+        return fetch(`${URL_PREFIX}/api/notification/product/${productId}`, {
+            method: 'GET',
+        }).then(res=>{
+            if(!res.ok){
+                throw new Error('something went wrong')
+            }
+            return res.json()
+        })
+    },
 
 
 
