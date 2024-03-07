@@ -14,24 +14,32 @@ export default function AuthProvider({children}){
     const [userStatus, setUserStatus] = useState('')
 
     useEffect(() => {
-       const savedToken= localStorage.getItem('token')
-        if (savedToken) {
-          API.getDataFromToken(savedToken).then(data=>{
-            console.log(data)
-            setToken(savedToken);
-            setIsLoggedIn(true)
-            setUserStatus(data.status)
-            console.log(userStatus)
-            if(data.status == 'client'){
-              localStorage.setItem('clientId', data.user.id)
-            }else if(data.status == 'merchant'){
-              localStorage.setItem('merchantId', data.user.id)
-            }
-          }).catch(err=>{
-            localStorage.removeItem("token");
-          })
+      const userStatu = localStorage.getItem('userStatus')
+      const savedToken= localStorage.getItem('token')
+          if (savedToken) {
+            if(userStatu == 'client'){
+              setUserStatus('client')
+              API.getDataTokenClient(savedToken).then(data=>{
+              console.log(data)
+              localStorage.setItem('clientId', data.id)
+              setToken(savedToken);
+              setIsLoggedIn(true)  
+            });
+            }else if (userStatu == 'merchant'){
+              setUserStatus('merchant')
+            API.getDataTokenMerchant(savedToken).then(data=>{
+              console.log(data)
+              localStorage.setItem('merchantId', data.id)
+              setToken(savedToken);
+              setIsLoggedIn(true)
+            })
+          };
         }
-      },[location])
+        else{
+            localStorage.removeItem("token");
+          }
+        
+    },[location])
 
 
 

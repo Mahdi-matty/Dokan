@@ -67,8 +67,21 @@ const API = {
         return res.json()
       })
     },
-    getDataFromToken:token=>{
-        return fetch(`${URL_PREFIX}/datafromtoken`,{
+    getDataTokenClient:token=>{
+        return fetch(`${URL_PREFIX}/tokenDataClient`,{
+            method:"GET",
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
+        }).then(res=>{
+            if(!res.ok){
+             throw new Error("invalid token")
+            }
+            return res.json()
+          })
+    },
+    getDataTokenMerchant:token=>{
+        return fetch(`${URL_PREFIX}/tokenDataMerchant`,{
             method:"GET",
             headers:{
                 "Authorization":`Bearer ${token}`
@@ -102,17 +115,19 @@ const API = {
             }
         })
     },
-    getMerchantProduct:(token, merchantId)=>{
+    getMerchantProduct:(merchantId)=>{
         fetch(`${URL_PREFIX}/api/products/merchant/${merchantId}`, {
             method: 'GET',
-            headers: {
-                "Authorization":`Bearer ${token}`
-            }
-        }).then(res=>{
-            if(!res.ok){
+        }).then(Response=>{
+            if(!Response.ok){
                 throw new Error('something went wrong')
+            }else{
+                return Response.json()
             }
-            return res.json()
+            
+        }).catch(err=>{
+            console.error('serror fetching data', err)
+            throw Error
         })
     },
     createProduct:(token,productObj)=>{

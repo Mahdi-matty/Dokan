@@ -26,6 +26,8 @@ export default function Login(){
           setIsLoggedIn(true);
           setToken(data.token);
           localStorage.setItem("token",data.token)
+          localStorage.removeItem('userStatus')
+          localStorage.setItem('userStatus', 'client')
           navigate('/profile')
         }).catch(err=>{
           console.log(err);

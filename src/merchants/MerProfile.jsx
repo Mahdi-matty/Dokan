@@ -18,13 +18,27 @@ export default function MerProfile(){
     const [newStock, setNewStock] = useState('')
     const navigate = useNavigate()
     const [showNewForm, setShowNewForm] = useState(false)
+    const merchantId = localStorage.getItem('merchantId')
+    console.log(merchantId)
+
+    // useEffect(() => {
+    //    try{
+    //     const promise = API.getMerchantProduct(merchantId)
+    //     promise.then((data) =>{
+    //         console.log(data)
+    //     //    setProducts(data) 
+    //     })
+    //    }catch(error){
+    //     console.log(error)
+    //    }
+    // }, [merchantId]);
 
     useEffect(()=>{
-        API.getMerchantProduct(token, merchantId).then(data=>{
-            console.log(data)
-            setProducts(data)
+        fetch(`http://localhost:3001/api/products/${merchantId}`).then(res=>res.json()).then(data=>{
+          console.log(data)
+        //   setProducts(data)
         })
-    }, [token])
+      },[merchantId])
 
     const popEdit = (product)=>{
         setEditId(product.id)
@@ -48,6 +62,9 @@ export default function MerProfile(){
         setShowNewForm(!showNewForm)
     }
 
+    const uploadImage = ()=>{
+        e.preventDefault()
+    }
     const addProduct = ()=>{
         const productObj = {
             title: newTitle,

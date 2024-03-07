@@ -7,7 +7,7 @@ export default function UploadCareUploader(){
 
     <lr-config
     ctx-name="my-uploader"
-    pubkey="4a403e611147e7f74702"
+    pubkey="19e022ad217b6bff117f"
     maxLocalFileSizeBytes={10000000}
     imgOnly={true}
     sourceList="local, url, camera, dropbox"

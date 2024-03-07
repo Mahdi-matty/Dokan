@@ -27,7 +27,9 @@ export default function MerchantLogin(){
           setIsLoggedIn(true);
           setToken(data.token);
           localStorage.setItem("token",data.token)
-          navigate('/profile')
+          localStorage.removeItem('userStatus')
+          localStorage.setItem('userStatus', 'merchant')
+          navigate('/merchantprofile')
         }).catch(err=>{
           console.log(err);
         })
