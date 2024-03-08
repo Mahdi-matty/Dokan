@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef  } from "react"
 import API from '../utils/API'
-import { Link, useNavigate } from "react-router-dom"
-import { SlBasketLoaded } from "react-icons/sl"
 import { useAuthContext } from "../utils/AuthContext"
-import UploadCareUploader from './uploadcare'
 export default function MerProfile(){
     const [editId, setEditId] =useState(false)
     const [products, setProducts] = useState([])
@@ -16,27 +13,17 @@ export default function MerProfile(){
     const [newPrice, setNewPrice] = useState('')
     const [stock, setStock] = useState('')
     const [newStock, setNewStock] = useState('')
-    const navigate = useNavigate()
     const [showNewForm, setShowNewForm] = useState(false)
+    const [formState, setFormState] = useState([])
+    const [imageAddress, setImageAddress] = useState('')
     const merchantId = localStorage.getItem('merchantId')
     console.log(merchantId)
-
-    // useEffect(() => {
-    //    try{
-    //     const promise = API.getMerchantProduct(merchantId)
-    //     promise.then((data) =>{
-    //         console.log(data)
-    //     //    setProducts(data) 
-    //     })
-    //    }catch(error){
-    //     console.log(error)
-    //    }
-    // }, [merchantId]);
+    const fileInput = useRef(null);
 
     useEffect(()=>{
-        fetch(`http://localhost:3001/api/products/${merchantId}`).then(res=>res.json()).then(data=>{
+        fetch(`http://localhost:3001/api/merchants/${merchantId}`).then(res=>res.json()).then(data=>{
           console.log(data)
-        //   setProducts(data)
+          setProducts(data.Products)
         })
       },[merchantId])
 
@@ -44,11 +31,13 @@ export default function MerProfile(){
         setEditId(product.id)
     }
 
-    const editProduct = ()=>{
+    const editProduct = (event)=>{
+        event.preventDefault()
         const productId = editId
         const productObj ={
             title: title,
             content: content,
+            productPic: imageAddress,
             price: price,
             stock: stock
         }
@@ -62,9 +51,30 @@ export default function MerProfile(){
         setShowNewForm(!showNewForm)
     }
 
-    const uploadImage = ()=>{
-        e.preventDefault()
-    }
+    const handleImageUpload = (event) => {
+        event.preventDefault();
+        const data = new FormData();
+        data.append('image', fileInput.current.files[0]);
+      
+        const postImage = async () => {
+          try {
+            const res = await fetch('http://localhost:3001/api/upload/image-upload', {
+              mode: 'cors',
+              method: 'POST',
+              body: data,
+            });
+            if (!res.ok) throw new Error(res.statusText);
+            const postResponse = await res.json();
+            setFormState({ ...formState, image: postResponse.Location });
+            console.log('postImage: ', postResponse.Location);
+            setImageAddress(postResponse.Location)
+            return postResponse.Location;
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        postImage();
+      };
     const addProduct = ()=>{
         const productObj = {
             title: newTitle,
@@ -89,7 +99,7 @@ export default function MerProfile(){
                             <p>{product.price}</p>
                             <p>{product.stcok}</p>
                             <img src={product.productPic}/>
-                            <button onClick={()=>popEdit(product)}></button>
+                            <button onClick={()=>popEdit(product)}>edit</button>
                             <div>
                                 {editId == product.id &&(
                                 <form onSubmit={editProduct}>
@@ -118,14 +128,20 @@ export default function MerProfile(){
                                     type="text"
                                     className="questionNewCard"/>
                                     <input 
-                                    name="stcok"
-                                    id="stcok"
-                                    value={stcok}
+                                    name="stock"
+                                    id="stock"
+                                    value={stock}
                                     onChange={e=>setStock(e.target.value)}
                                     placeholder="Type a Question"
                                     type="text"
                                     className="questionNewCard"/>
-                                    <button onClick={()=>uploadImage()}><UploadCareUploader />upload image</button>
+                                    <label className="form-input col-12  p-1">
+                                        Add an image:
+                                        <input type="file" ref={fileInput} className="form-input p-2" />
+                                        <button className="btn" onClick={handleImageUpload} type="submit">
+                                            Upload
+                                        </button>
+                                    </label>
                                     <button type="submit">Submit changes</button>
                                 </form>
                             )}
