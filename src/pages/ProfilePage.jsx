@@ -11,7 +11,6 @@ export default function ProfilePage(){
     const navigate = useNavigate()
     const clientId = localStorage.getItem('clientId')
     const [collects, setCollects] = useState([])
-    console.log(clientId)
     
     useEffect(()=>{
         API.getAllProduct().then(data=>{
@@ -35,8 +34,7 @@ export default function ProfilePage(){
                   API.getUserOrder(token, basketId).then(collectz=>{
                       console.log(collectz)
                       setCollects(collectz)
-                      // setProducts(collectz.products)
-                      // setOrders(collectz.orders)
+                   
               }).catch(err=>{
                   console.error('eror fetching data: ', err)
               });
@@ -73,24 +71,23 @@ export default function ProfilePage(){
   }, [collects]);
 
   useEffect(() => {
-    // Define an array to hold notifications
+    
     const notifications = [];
 
-    // Iterate through collects and fetch notifications for each product
     collects.forEach(collect => {
         const productId = collect.product.id;
 
-        // Fetch notifications for the product
-        API.getProductNotification(productId)
-            .then(res => {
-                // Push notifications to the array
+        const answer =API.getProductNotification(productId)
+          if(answer){
+            answer.then(res => {
                 notifications.push(res);
-                // Convert the array to a string and store it in localStorage
                 localStorage.setItem('notifications', JSON.stringify(notifications));
             })
             .catch(error => {
                 console.error('Error fetching notifications:', error);
             });
+          }
+            
     });
 }, [collects]);
   
@@ -111,11 +108,13 @@ export default function ProfilePage(){
         <>
            <div className="categories-container">
            
-              {categories.map((category)=>(
-                <div className="category-card" key={category.id}>
-                  <Link to={`/category/${category.id}`}><p>{category.name}</p></Link>
-                </div>
-              ))}
+           {Object.keys(categories).map((categoryName, index) => (
+          <div className="category-card" key={index}>
+            <Link to={`/categorysub/${categoryName}`}>
+                <p>{categoryName}</p>
+            </Link>
+          </div>
+        ))}
           </div>
             <div className="products-container">
             <ul className="products-list">

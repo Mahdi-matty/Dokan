@@ -298,7 +298,7 @@ const API = {
             return res.json()
         })
     },
-    getCategory: (categoryId)=>{
+    getOneCategory: (categoryId)=>{
         return fetch(`${URL_PREFIX}/api/categories/${categoryId}`,{
             method: 'GET',
         }).then(res=>{
@@ -319,7 +319,7 @@ const API = {
         })
     },
     getCategoryByName: (categoryName)=>{
-        fetch(`${URL_PREFIX}/api/products/categoryByName/${categoryName}`, {
+        fetch(`${URL_PREFIX}/api/categories/sub/${categoryName}`, {
             method: 'GET',
         }).then(res=>{
             if(!res.ok){
@@ -328,8 +328,8 @@ const API = {
             return res.json()
         })
     },
-    getCategoryBySub: (categoryName, categorySub)=>{
-        fetch(`${URL_PREFIX}/api/products/categoryByNameSub/${categoryName}/${categorySub}`, {
+    getCategoryBySub: (categoryName)=>{
+        fetch(`${URL_PREFIX}/api/products/cat/${categoryName}`, {
             method: 'GET',
         }).then(res=>{
             if(!res.ok){

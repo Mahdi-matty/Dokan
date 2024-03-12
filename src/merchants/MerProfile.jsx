@@ -29,6 +29,10 @@ export default function MerProfile(){
 
     const popEdit = (product)=>{
         setEditId(product.id)
+        setTtile(product.title)
+        setContent(product.content)
+        setPrice(product.price)
+        setStock(product.stock)
     }
 
     const editProduct = (event)=>{
@@ -98,7 +102,7 @@ export default function MerProfile(){
                             <p>{product.content}</p>
                             <p>{product.price}</p>
                             <p>{product.stcok}</p>
-                            <img src={product.productPic}/>
+                            <img src={product.productPic} alt="s3bucket"/>
                             <button onClick={()=>popEdit(product)}>edit</button>
                             <div>
                                 {editId == product.id &&(

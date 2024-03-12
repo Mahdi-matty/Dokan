@@ -13,6 +13,7 @@ import ProfilePage from './pages/ProfilePage.jsx'
 import MerchantLogin from './merchants/MerchantLogin.jsx';
 import MerProfile from './merchants/MerProfile.jsx';
 import CategoryPart from './components/UI/CategoryPart.jsx';
+import CategoryName from './components/UI/CategoryName.jsx';
 
 
 const router = createBrowserRouter([
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: '/category/:id',
         element: <CategoryPart />,
+      },
+      {
+        path: '/categorysub/:categoryName',
+        element: <CategoryName />,
       },
       {
         path: '/profile',

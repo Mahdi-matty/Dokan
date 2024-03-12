@@ -13,6 +13,7 @@ export default function HomePage(){
   }, [])
   useEffect(()=>{
     API.getCategories().then(data=>{
+      console.log(data)
       setCategories(data)
     })
   }, [])
@@ -51,11 +52,13 @@ export default function HomePage(){
        </div>
        <div className="categories-container">
        
-          {categories.map((category)=>(
-            <div className="category-card" key={category.id}>
-              <Link to={`/category/${category.id}`}><p>{category.name}</p></Link>
-            </div>
-          ))}
+       {Object.keys(categories).map((categoryName, index) => (
+          <div className="category-card" key={index}>
+            <Link to={`/categorysub/${categoryName}`}>
+                <p>{categoryName}</p>
+            </Link>
+          </div>
+        ))}
       </div>
         <div className="products-container">
         <ul className="products-list">
