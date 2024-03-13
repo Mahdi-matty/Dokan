@@ -101,7 +101,7 @@ export default function MerProfile(){
                             <p>{product.title}</p>
                             <p>{product.content}</p>
                             <p>{product.price}</p>
-                            <p>{product.stcok}</p>
+                            <p>{product.stock}</p>
                             <img src={product.productPic} alt="s3bucket"/>
                             <button onClick={()=>popEdit(product)}>edit</button>
                             <div>
